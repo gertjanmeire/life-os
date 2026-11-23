@@ -1,0 +1,121 @@
+/* Life OS – huisstijl: warm papier, koraal accent, kleur per gebied. */
+:root {
+	--bg: #f6f2eb;
+	--side: #efe9df;
+	--surface: #ffffff;
+	--paper: #fbf8f2;
+	--text: #1f1c18;
+	--text-2: #5c554c;
+	--muted: #6e675d;
+	--border: #e4ddd1;
+	--border-soft: #efeae2;
+	--border-strong: #cfc6b8;
+	--accent: #c4532a;
+	--accent-text: #a9431e;
+	--accent-soft: #fbe6db;
+	--accent-fg: #9a3a17;
+	--on-accent: #ffffff;
+	--nav-active: #ffffff;
+	--dot: rgba(70, 52, 30, 0.16);
+
+	--font-sans: 'Inter', system-ui, sans-serif;
+	--font-display: 'Fraunces', Georgia, serif;
+	--font-hand: 'Caveat', cursive;
+	--radius-card: 20px;
+
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--bg: #141318;
+		--side: #1a1920;
+		--surface: #201f27;
+		--paper: #26242e;
+		--text: #f3efe8;
+		--text-2: #bdb6ac;
+		--muted: #a39c92;
+		--border: #34313d;
+		--border-soft: #2b2933;
+		--border-strong: #4a4655;
+		--accent: #f2895b;
+		--accent-text: #f7a27c;
+		--accent-soft: #33221b;
+		--accent-fg: #f7b394;
+		--on-accent: #1a0f0a;
+		--nav-active: #2a2833;
+		--dot: rgba(255, 255, 255, 0.08);
+		color-scheme: dark;
+	}
+}
+
+:root[data-theme='dark'] {
+	--bg: #141318;
+	--side: #1a1920;
+	--surface: #201f27;
+	--paper: #26242e;
+	--text: #f3efe8;
+	--text-2: #bdb6ac;
+	--muted: #a39c92;
+	--border: #34313d;
+	--border-soft: #2b2933;
+	--border-strong: #4a4655;
+	--accent: #f2895b;
+	--accent-text: #f7a27c;
+	--accent-soft: #33221b;
+	--accent-fg: #f7b394;
+	--on-accent: #1a0f0a;
+	--nav-active: #2a2833;
+	--dot: rgba(255, 255, 255, 0.08);
+	color-scheme: dark;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	font-size: 14px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+h1,
+h2 {
+	font-family: var(--font-display);
+	font-weight: 500;
+	margin: 0;
+}
+
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	padding: 22px 24px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}

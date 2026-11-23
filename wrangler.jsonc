@@ -1,0 +1,28 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "life-os",
+	"compatibility_date": "2026-11-23",
+	"compatibility_flags": [
+		"nodejs_als"
+	],
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"workers_dev": true,
+	// Preview-URL's uit: anders bestaat er per versie een extra adres buiten de login om.
+	"preview_urls": false,
+	"vars": {
+		"OWNER_NAME": "Gert-Jan",
+		"TIMEZONE": "Europe/Brussels"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "life-os",
+			"database_id": "652346b8-e67f-4460-be28-f8b0d86575a4",
+			"migrations_dir": "migrations"
+		}
+	]
+}
