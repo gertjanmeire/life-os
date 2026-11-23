@@ -82,6 +82,14 @@ Kies eerst je Zero Trust-teamnaam (stap 3.1), want die heb je hier nodig.
 - iPhone/iPad: open de URL in Safari → Deel → Zet op beginscherm.
 - Mac/Windows: open in Chrome of Edge → installeer-icoon in de adresbalk.
 
+## Agenda's (Google, Outlook)
+
+Onder **Agenda's** koppel je een agenda via zijn geheime ICS-link (alleen lezen).
+Life OS haalt een agenda opnieuw op als hij ouder is dan 15 minuten en je de app opent
+(op de achtergrond), of meteen met "Nu vernieuwen". Herhalingen worden uitgerold
+van 30 dagen terug tot een jaar vooruit. De parser staat in `src/lib/server/ics.ts`
+(met ical.js), het ophalen en bewaren in `src/lib/server/calendars.ts`.
+
 ## Structuur
 
 - `migrations/` – databaseschema (gebieden en items)

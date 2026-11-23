@@ -26,5 +26,8 @@
 		"typescript": "^6.0.3",
 		"vite": "^8.3.0",
 		"wrangler": "^4.97.0"
+	},
+	"dependencies": {
+		"ical.js": "2.2.1"
 	}
 }

@@ -9,18 +9,21 @@ import {
 	timeZone,
 	type Kind
 } from '#lib/server/db.ts';
+import { eventsOn, refreshStaleCalendars } from '#lib/server/calendars.ts';
 
 const KINDS: Kind[] = ['task', 'event', 'note'];
 
 export const load: PageServerLoad = async () => {
 	const db = getDb();
 	const today = isoDate();
-	const [items, overdue, later] = await Promise.all([
+	const [items, overdue, later, calendarEvents] = await Promise.all([
 		itemsOn(db, today),
 		overdueTasks(db, today),
-		laterItems(db)
+		laterItems(db),
+		eventsOn(db, today),
+		refreshStaleCalendars(db)
 	]);
-	return { today, timeZone: timeZone(), items, overdue, later };
+	return { today, timeZone: timeZone(), items, overdue, later, calendarEvents };
 };
 
 function text(form: FormData, key: string): string {

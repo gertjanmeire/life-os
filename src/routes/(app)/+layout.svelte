@@ -10,7 +10,8 @@
 		{ href: null, label: 'Inbox', icon: 'inbox' },
 		{ href: null, label: 'Kalender', icon: 'calendar' },
 		{ href: null, label: 'Later', icon: 'later' },
-		{ href: null, label: 'Documenten', icon: 'folder' }
+		{ href: null, label: 'Documenten', icon: 'folder' },
+		{ href: '/agendas', label: "Agenda's", icon: 'link' }
 	];
 
 	let dark = $state(false);
@@ -101,7 +102,7 @@
 
 	<nav aria-label="Hoofdmenu" class="tabbar">
 		<a href="/" aria-current={page.url.pathname === '/' ? 'page' : undefined}><Icon name="sun" size={22} />Vandaag</a>
-		<span class="soon"><Icon name="calendar" size={22} />Kalender</span>
+		<a href="/agendas" aria-current={page.url.pathname === '/agendas' ? 'page' : undefined}><Icon name="link" size={22} />Agenda's</a>
 		<span class="soon"><Icon name="folder" size={22} />Documenten</span>
 		<button type="button" onclick={toggleTheme}><Icon name={dark ? 'sun' : 'moon'} size={22} />Thema</button>
 		<a href="/afmelden" data-sveltekit-reload><Icon name="logout" size={22} />Afmelden</a>

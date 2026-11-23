@@ -30,7 +30,43 @@
 
 	const tasks = $derived(data.items.filter((i) => i.kind === 'task'));
 	const doneCount = $derived(tasks.filter((t) => t.done).length);
-	const events = $derived(data.items.filter((i) => i.kind === 'event').length);
+	const events = $derived(
+		data.items.filter((i) => i.kind === 'event').length + data.calendarEvents.length
+	);
+
+	const sourceLabel = { google: 'Google', outlook: 'Outlook', other: 'Agenda' } as const;
+
+	type Row =
+		| { key: string; type: 'item'; sort: string; item: (typeof data.items)[number] }
+		| { key: string; type: 'cal'; sort: string; ev: (typeof data.calendarEvents)[number] };
+
+	/**
+	 * Eén tijdlijn: hele-dag-afspraken bovenaan, dan alles met een uur
+	 * (eigen afspraken en gekoppelde agenda's samen), dan de rest.
+	 */
+	const rows = $derived.by(() => {
+		const list: Row[] = [
+			...data.calendarEvents.map((ev) => ({
+				key: `cal-${ev.id}`,
+				type: 'cal' as const,
+				sort: ev.all_day || !ev.start_time || ev.start_date < data.today ? `0` : `1 ${ev.start_time}`,
+				ev
+			})),
+			...data.items.map((item, i) => ({
+				key: item.id,
+				type: 'item' as const,
+				sort: item.time ? `1 ${item.time}` : `2 ${String(i).padStart(4, '0')}`,
+				item
+			}))
+		];
+		return list.sort((a, b) => a.sort.localeCompare(b.sort));
+	});
+
+	function calTime(ev: (typeof data.calendarEvents)[number]) {
+		if (ev.all_day) return 'hele dag';
+		if (ev.start_date < data.today) return ev.end_date > data.today ? 'hele dag' : `tot ${ev.end_time}`;
+		return ev.start_time ?? '';
+	}
 
 	function isoWeek(date: Date): number {
 		const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -107,7 +143,24 @@
 			{/if}
 
 			<ul class="list">
-				{#each data.items as item (item.id)}
+				{#each rows as row (row.key)}
+					{#if row.type === 'cal'}
+						{@const ev = row.ev}
+						<li class="row cal" style="--area: {ev.color}">
+							<span class="kind" title="Afspraak uit {ev.calendar_name}">
+								<Icon name="calendar" size={14} stroke={2} />
+								<span class="sr-only">Afspraak uit {ev.calendar_name}</span>
+							</span>
+							<span class="time" class:allday={ev.all_day || ev.start_date < data.today}>{calTime(ev)}</span>
+							<span class="title">
+								{ev.title}
+								{#if ev.location}<span class="where"><Icon name="pin" size={12} />{ev.location}</span>{/if}
+							</span>
+							{#if ev.end_time && !ev.all_day && ev.start_date === data.today}<span class="until">tot {ev.end_time}</span>{/if}
+							<span class="chip source">{sourceLabel[ev.source]}</span>
+						</li>
+					{:else}
+					{@const item = row.item}
 					<li class="row" class:done={item.done} style={areaStyle(item.area_id)}>
 						{#if item.kind === 'task'}
 							<form method="POST" action="?/toggle" use:enhance>
@@ -134,6 +187,7 @@
 							<button class="icon-btn" formaction="?/remove" aria-label="{item.title}: verwijderen" title="Verwijderen"><Icon name="trash" size={16} /></button>
 						</form>
 					</li>
+					{/if}
 				{:else}
 					<li class="empty">
 						<span class="hand">een lege bladzijde</span>
@@ -418,6 +472,34 @@
 	.done .title {
 		text-decoration: line-through;
 		color: var(--muted);
+	}
+	.time.allday {
+		width: auto;
+		min-width: 40px;
+		font-size: 11px;
+		font-weight: 600;
+		color: var(--area);
+	}
+	.where {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		font-size: 12px;
+		color: var(--muted);
+	}
+	.until {
+		font-size: 12px;
+		color: var(--muted);
+		white-space: nowrap;
+	}
+	@media (max-width: 820px) {
+		.until {
+			display: none;
+		}
+	}
+	.chip.source {
+		color: var(--text-2);
+		background: var(--border-soft);
 	}
 	.flag {
 		font-size: 11px;
