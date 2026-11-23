@@ -9,12 +9,13 @@
 	},
 	"scripts": {
 		"dev": "vite dev",
-		"build": "wrangler types --check && vite build",
+		"build": "npm run clean && wrangler types --check && vite build",
 		"preview": "wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173",
 		"prepare": "svelte-kit sync || echo ''",
-		"check": "wrangler types --check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check": "npm run clean && wrangler types --check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"gen": "wrangler types"
+		"gen": "npm run clean && wrangler types",
+		"clean": "node -e \"for(const d of ['output','cloudflare','cloudflare-tmp'])require('fs').rmSync('.svelte-kit/'+d,{recursive:true,force:true})\""
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-cloudflare": "^8.0.0",

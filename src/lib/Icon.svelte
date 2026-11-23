@@ -12,7 +12,9 @@
 		note: 'M6 3h9l4 4v14H6z M9 11h6 M9 15h6',
 		trash: 'M4 7h16 M10 11v6 M14 11v6 M6 7l1 13h10l1-13 M9 7V4h6v3',
 		search: 'M10 4a6 6 0 1 0 0 12a6 6 0 1 0 0-12 M20 20l-5.5-5.5',
-		redo: 'M4 12a8 8 0 0 1 14-5.3 M18 3v4h-4'
+		redo: 'M4 12a8 8 0 0 1 14-5.3 M18 3v4h-4',
+		logout: 'M14 4h5v16h-5 M10 8l-4 4l4 4 M6 12h10',
+		shield: 'M12 3l7 3v5c0 5-3.5 8.5-7 10c-3.5-1.5-7-5-7-10V6z M9 12l2 2l4-4'
 	} as const;
 	export type IconName = keyof typeof icons;
 </script>

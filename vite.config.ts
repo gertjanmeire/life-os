@@ -10,7 +10,10 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			// CSS in de pagina zelf zetten: de welkomstpagina staat buiten de login,
+			// de losse bestanden onder /_app niet.
+			inlineStyleThreshold: 200_000
 		})
 	]
 });
