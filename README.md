@@ -38,8 +38,11 @@ npm run build
 npx wrangler deploy                     # geeft https://life-os.<subdomein>.workers.dev
 ```
 
-Bij elke nieuwe versie: `npm run build` en `npx wrangler deploy`.
-Bij een nieuwe migratie eerst `npx wrangler d1 migrations apply life-os --remote`.
+Nieuwe versies gaan automatisch online: Workers Builds bouwt en deployt elke push naar
+`main` (build command `npm run build`, deploy command `npx wrangler deploy`).
+Handmatig kan nog steeds met `npm run build` en `npx wrangler deploy`.
+Migraties gaan niet automatisch mee: voer bij een nieuwe migratie eerst
+`npx wrangler d1 migrations apply life-os --remote` uit.
 
 ### 2. Google-login voorbereiden (Google Cloud Console → Google Auth Platform)
 

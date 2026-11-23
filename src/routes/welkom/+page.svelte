@@ -62,7 +62,7 @@
 				<span>Alleen jouw Google-account heeft toegang. De app zit achter een extra beveiligingslaag van Cloudflare.</span>
 			</div>
 
-			<p class="foot">Werkt op iPhone, iPad, Mac en Windows. Installeer Life OS via je browser om het als app te gebruiken.</p>
+			<p class="foot">Werkt op iPhone, iPad, Mac en Windows. Zet Life OS via je browser op je beginscherm of in je dock en gebruik het als app.</p>
 		</div>
 	</section>
 </div>
