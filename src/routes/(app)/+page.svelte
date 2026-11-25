@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Icon from '#lib/Icon.svelte';
+	import Habits from '#lib/Habits.svelte';
 	import type { Kind } from '#lib/server/db.ts';
 	import type { PageProps } from './$types';
 
@@ -104,6 +105,8 @@
 			{events === 1 ? 'afspraak' : 'afspraken'}
 		</p>
 	</header>
+
+	<Habits habits={data.habits} max={data.maxHabits} error={form && 'habitError' in form ? form.habitError : undefined} />
 
 	{#if data.overdue.length}
 		<section class="overdue" aria-labelledby="overdue-title">

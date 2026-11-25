@@ -10,20 +10,22 @@ import {
 	type Kind
 } from '#lib/server/db.ts';
 import { eventsOn, refreshStaleCalendars } from '#lib/server/calendars.ts';
+import { MAX_HABITS, addHabit, archiveHabit, listHabits, toggleHabit } from '#lib/server/habits.ts';
 
 const KINDS: Kind[] = ['task', 'event', 'note'];
 
 export const load: PageServerLoad = async () => {
 	const db = getDb();
 	const today = isoDate();
-	const [items, overdue, later, calendarEvents] = await Promise.all([
+	const [items, overdue, later, calendarEvents, habits] = await Promise.all([
 		itemsOn(db, today),
 		overdueTasks(db, today),
 		laterItems(db),
 		eventsOn(db, today),
+		listHabits(db, today),
 		refreshStaleCalendars(db)
 	]);
-	return { today, timeZone: timeZone(), items, overdue, later, calendarEvents };
+	return { today, timeZone: timeZone(), items, overdue, later, calendarEvents, habits, maxHabits: MAX_HABITS };
 };
 
 function text(form: FormData, key: string): string {
@@ -86,5 +88,23 @@ export const actions: Actions = {
 	remove: async ({ request }) => {
 		const id = text(await request.formData(), 'id');
 		await getDb().prepare('DELETE FROM items WHERE id = ?').bind(id).run();
+	},
+
+	habitAdd: async ({ request }) => {
+		const name = text(await request.formData(), 'name');
+		if (!name) return fail(400, { habitError: 'Geef de gewoonte een naam.' });
+		if (name.length > 60) return fail(400, { habitError: 'Hou het kort: max. 60 tekens.' });
+		const added = await addHabit(getDb(), name, isoDate());
+		if (!added) return fail(400, { habitError: `Je hebt al ${MAX_HABITS} gewoontes. Stop eerst met één.` });
+	},
+
+	habitToggle: async ({ request }) => {
+		const id = text(await request.formData(), 'id');
+		await toggleHabit(getDb(), id, isoDate());
+	},
+
+	habitArchive: async ({ request }) => {
+		const id = text(await request.formData(), 'id');
+		await archiveHabit(getDb(), id);
 	}
 };

@@ -90,6 +90,14 @@ Life OS haalt een agenda opnieuw op als hij ouder is dan 15 minuten en je de app
 van 30 dagen terug tot een jaar vooruit. De parser staat in `src/lib/server/ics.ts`
 (met ical.js), het ophalen en bewaren in `src/lib/server/calendars.ts`.
 
+## Gewoontes
+
+Bovenaan **Vandaag** staan maximaal drie gewoontes die je elke dag afvinkt; elke ochtend
+begin je met een lege lijst. De streak telt afgevinkte dagen op rij, met één vrije dag per
+week (ma–zo): pas de tweede gemiste dag in dezelfde week breekt de reeks. Stoppen met een
+gewoonte haalt hem van het scherm, de geschiedenis blijft in de database.
+Logica in `src/lib/server/habits.ts`, het scherm in `src/lib/Habits.svelte`.
+
 ## Structuur
 
 - `migrations/` – databaseschema (gebieden en items)
